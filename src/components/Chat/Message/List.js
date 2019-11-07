@@ -1,51 +1,26 @@
-import React from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 
-import { MSG_TYPE } from '../../../config';
+import Item from './Item';
 
-function List({ msgList }) {
-  const contentAdminMsgDOM = (message, time) => (
-    <li className='admin'>
-      <p>{message}</p>
-      <span>{time}</span>
-    </li>
-  );
+function List({ user, msgList }) {
+  const myRef = useRef(null);
 
-  const contentUserMsgDOM = (type, avatar, message, time) => (
-    <li className={type === MSG_TYPE.sent ? 'sent' : 'replies'}>
-      {type === MSG_TYPE.sent && <img src={avatar.src} alt={avatar.name} />}
-      <div>
-        <p>{message}</p>
-        <span>{time}</span>
-      </div>
-      {type === MSG_TYPE.replies && <img src={avatar.src} alt={avatar.name} />}
-    </li>
-  );
+  // auto scroll to bottom
+  useLayoutEffect(() => {
+    if (myRef) myRef.current.scrollTop = myRef.current.scrollHeight;
+  }, [msgList]);
 
   return (
-    <div className='messages'>
+    <div className='messages' ref={myRef}>
       <ul>
-        {msgList.map(item =>
-          item.type === MSG_TYPE.admin
-            ? contentAdminMsgDOM(item.text, item.time)
-            : contentUserMsgDOM(
-                item.type,
-                { src: 'img/avatar-male.png', name: 'Avatar' },
-                item.text,
-                item.time
-              )
-        )}
+        {msgList.map(msg => (
+          <div key={msg.id}>
+            <Item user={user} data={msg} />
+          </div>
+        ))}
       </ul>
     </div>
   );
 }
 
 export default List;
-
-{
-  /* contentUserMsgDOM(
-                MSG_TYPE_REPLIES,
-                { src: 'img/avatar-male.png', name: 'Avatar' },
-                'Test sdfdsfd sdfsdf',
-                'Today'
-              ) */
-}

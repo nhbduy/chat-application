@@ -6,11 +6,12 @@ export const SOCKET_MSG = {
   disconnect: 'disconnect',
   join: 'join',
   message: 'message',
-  sendMessage: 'sendMessage'
+  sendMessage: 'sendMessage',
+  roomData: 'roomData'
 };
 
 export const MSG_TYPE = {
   admin: 0,
   sent: 1,
-  replies: 2
+  received: 2
 };

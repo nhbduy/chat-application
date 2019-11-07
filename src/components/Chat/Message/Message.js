@@ -3,9 +3,7 @@ import React from 'react';
 import List from './List';
 import Input from './Input';
 
-function Message({ msg, msgList, func }) {
-
-
+function Message({ user, msg, msgList, func }) {
   return (
     <div className='content'>
       <div className='contact-profile'>
@@ -13,7 +11,7 @@ function Message({ msg, msgList, func }) {
         <p>Harvey Specter</p>
       </div>
 
-      <List msgList={msgList} />
+      <List user={user} msgList={msgList} />
 
       <Input msg={msg} func={func} />
     </div>

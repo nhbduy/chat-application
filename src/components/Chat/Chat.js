@@ -37,7 +37,7 @@ function Chat({ location }) {
     return () => {
       // disconnect and turn off socket
       socket.emit(SOCKET_MSG.disconnect);
-      socket.off();
+      socket.disconnect();
     };
   }, [SERVER_URL, paramsURL]);
 
@@ -78,6 +78,7 @@ function Chat({ location }) {
       <SidePanel />
 
       <Message
+        user={userName}
         msg={msg}
         msgList={msgList}
         func={{ handleOnChangeMessage, handleOnKeyPressMessage, sendMessage }}
