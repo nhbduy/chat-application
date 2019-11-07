@@ -8,3 +8,9 @@ export const SOCKET_MSG = {
   message: 'message',
   sendMessage: 'sendMessage'
 };
+
+export const MSG_TYPE = {
+  admin: 0,
+  sent: 1,
+  replies: 2
+};

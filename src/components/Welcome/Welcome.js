@@ -24,7 +24,7 @@ function Welcome() {
   }
 
   return (
-    <div class='h-100 d-flex justify-content-center flex-column p-5'>
+    <div className='h-100 d-flex justify-content-center flex-column p-5'>
       <h1 className='p-3 text-center'>Welcome</h1>
       <div>
         <div className='form-group'>
