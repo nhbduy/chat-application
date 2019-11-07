@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './App.css';
+// import './App.css';
 
 function App() {
   return (
@@ -14,11 +14,11 @@ function App() {
               className='online'
               alt=''
             />
-            <p>Mike Ross</p>
-            <i
+            <p>User</p>
+            {/* <i
               className='fa fa-chevron-down expand-button'
-              aria-hidden='true'></i>
-            <div id='status-options'>
+              aria-hidden='true'></i> */}
+            {/* <div id='status-options'>
               <ul>
                 <li id='status-online' className='active'>
                   <span className='status-circle'></span>
@@ -37,17 +37,57 @@ function App() {
                   <p>Offline</p>
                 </li>
               </ul>
-            </div>
+            </div> */}
           </div>
         </div>
-        <div id='search'>
+        {/* <div id='search'>
           <label for=''>
             <i className='fa fa-search' aria-hidden='true'></i>
           </label>
-          <input type='text' placeholder='Search contacts...' />
-        </div>
+          <input type='text' placeholder='Search...' />
+        </div> */}
         <div id='contacts'>
           <ul>
+            <li className='contact'>
+              <div className='wrap'>
+                <span className='contact-status online'></span>
+                <img src='img/avatar-male.png' alt='' />
+                <div className='meta'>
+                  <p className='name'>Louis Litt</p>
+                  <p className='preview'>You just got LITT up, Mike.</p>
+                </div>
+              </div>
+            </li>
+            <li className='contact'>
+              <div className='wrap'>
+                <span className='contact-status online'></span>
+                <img src='img/avatar-male.png' alt='' />
+                <div className='meta'>
+                  <p className='name'>Louis Litt</p>
+                  <p className='preview'>You just got LITT up, Mike.</p>
+                </div>
+              </div>
+            </li>
+            <li className='contact'>
+              <div className='wrap'>
+                <span className='contact-status online'></span>
+                <img src='img/avatar-male.png' alt='' />
+                <div className='meta'>
+                  <p className='name'>Louis Litt</p>
+                  <p className='preview'>You just got LITT up, Mike.</p>
+                </div>
+              </div>
+            </li>
+            <li className='contact'>
+              <div className='wrap'>
+                <span className='contact-status online'></span>
+                <img src='img/avatar-male.png' alt='' />
+                <div className='meta'>
+                  <p className='name'>Louis Litt</p>
+                  <p className='preview'>You just got LITT up, Mike.</p>
+                </div>
+              </div>
+            </li>
             <li className='contact'>
               <div className='wrap'>
                 <span className='contact-status online'></span>
@@ -88,13 +128,13 @@ function App() {
           </ul>
         </div>
         <div id='bottom-bar'>
-          <button id='addcontact'>
-            <i className='fa fa-user-plus fa-fw' aria-hidden='true'></i>{' '}
-            <span>Add contact</span>
+          <button id='addcontact' className='active'>
+            <i className='fa fa-exchange fa-fw' aria-hidden='true'></i>
+            <span>Conversations</span>
           </button>
           <button id='settings'>
-            <i className='fa fa-cog fa-fw' aria-hidden='true'></i>{' '}
-            <span>Settings</span>
+            <i className='fa fa-users fa-fw' aria-hidden='true'></i>
+            <span>List</span>
           </button>
         </div>
       </div>
