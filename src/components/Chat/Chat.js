@@ -1,8 +1,40 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import queryString from 'query-string';
+import socketio from 'socket.io-client';
+
+import { SERVER_URL, SOCKET_MSG } from '../../config';
 
 import './Chat.css';
 
-function Chat() {
+let socket;
+
+function Chat({ location }) {
+  const paramsURL = location.search;
+
+  const [userName, setUserName] = useState('');
+  const [roomName, setRoomName] = useState('');
+
+  useEffect(() => {
+    const data = queryString.parse(paramsURL);
+
+    // set current user and room name
+    const { user, room } = data;
+    setUserName(user);
+    setRoomName(room);
+
+    // call socket from server
+    socket = socketio(SERVER_URL);
+
+    // broadcasting the message
+    socket.emit(SOCKET_MSG.join, { user, room }, () => {});
+
+    return () => {
+      // disconnect and turn off socket
+      socket.emit(SOCKET_MSG.disconnect);
+      socket.off();
+    };
+  }, [SERVER_URL, paramsURL]);
+
   return (
     <React.Fragment>
       <div id='sidepanel'>
