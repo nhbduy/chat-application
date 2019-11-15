@@ -18,6 +18,7 @@ function Chat({ location }) {
   const [roomName, setRoomName] = useState('');
   const [msg, setMsg] = useState('');
   const [msgList, setMsgList] = useState([]);
+  const [userList, setUserList] = useState([]);
 
   // handle user connect/disconnect
   useEffect(() => {
@@ -33,6 +34,9 @@ function Chat({ location }) {
 
     // broadcasting the message
     socket.emit(SOCKET_MSG.join, { user, room }, () => {});
+
+    // get online users list
+    socket.emit(SOCKET_MSG.onlineUsers, {}, list => setUserList(list));
 
     return () => {
       // disconnect and turn off socket
@@ -71,11 +75,12 @@ function Chat({ location }) {
     return null;
   }
 
-  console.log(msg, msgList);
+  // TEST console.log
+  // console.log(msg, msgList);
 
   return (
     <React.Fragment>
-      <SidePanel />
+      <SidePanel currentUser={userName} userList={userList} />
 
       <Message
         user={userName}

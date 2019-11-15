@@ -1,40 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Conversations from './Conversations';
+import Users from './Users';
 
-function SidePanel(props) {
+const ACTIVE_TAB = {
+  conversations: 1,
+  users: 2
+};
+
+function SidePanel({ currentUser, userList }) {
+  const [activeTab, setActiveTab] = useState(ACTIVE_TAB.conversations);
   return (
     <div id='sidepanel'>
       <div id='profile'>
-        <div className='wrap'>
-          <img
-            id='profile-img'
-            src='img/avatar-male.png'
-            className='online'
-            alt=''
-          />
-          <p>User</p>
-          {/* <i
-              className='fa fa-chevron-down expand-button'
-              aria-hidden='true'></i> */}
-          {/* <div id='status-options'>
-              <ul>
-                <li id='status-online' className='active'>
-                  <span className='status-circle'></span>
-                  <p>Online</p>
-                </li>
-                <li id='status-away'>
-                  <span className='status-circle'></span>
-                  <p>Away</p>
-                </li>
-                <li id='status-busy'>
-                  <span className='status-circle'></span>
-                  <p>Busy</p>
-                </li>
-                <li id='status-offline'>
-                  <span className='status-circle'></span>
-                  <p>Offline</p>
-                </li>
-              </ul>
-            </div> */}
+        <div className='wrap d-flex flex-row justify-content-between'>
+          <div>
+            <img
+              id='profile-img'
+              src='img/avatar-male.png'
+              className='online'
+              alt=''
+            />
+            <p>{currentUser}</p>
+          </div>
+          <i className='fa fa-plus expand-button pr-3' aria-hidden='true'></i>
         </div>
       </div>
       {/* <div id='search'>
@@ -43,95 +31,28 @@ function SidePanel(props) {
           </label>
           <input type='text' placeholder='Search...' />
         </div> */}
-      <div id='contacts'>
-        <ul>
-          <li className='contact'>
-            <div className='wrap'>
-              <span className='contact-status online'></span>
-              <img src='img/avatar-male.png' alt='' />
-              <div className='meta'>
-                <p className='name'>Louis Litt</p>
-                <p className='preview'>You just got LITT up, Mike.</p>
-              </div>
-            </div>
-          </li>
-          <li className='contact'>
-            <div className='wrap'>
-              <span className='contact-status online'></span>
-              <img src='img/avatar-male.png' alt='' />
-              <div className='meta'>
-                <p className='name'>Louis Litt</p>
-                <p className='preview'>You just got LITT up, Mike.</p>
-              </div>
-            </div>
-          </li>
-          <li className='contact'>
-            <div className='wrap'>
-              <span className='contact-status online'></span>
-              <img src='img/avatar-male.png' alt='' />
-              <div className='meta'>
-                <p className='name'>Louis Litt</p>
-                <p className='preview'>You just got LITT up, Mike.</p>
-              </div>
-            </div>
-          </li>
-          <li className='contact'>
-            <div className='wrap'>
-              <span className='contact-status online'></span>
-              <img src='img/avatar-male.png' alt='' />
-              <div className='meta'>
-                <p className='name'>Louis Litt</p>
-                <p className='preview'>You just got LITT up, Mike.</p>
-              </div>
-            </div>
-          </li>
-          <li className='contact'>
-            <div className='wrap'>
-              <span className='contact-status online'></span>
-              <img src='img/avatar-male.png' alt='' />
-              <div className='meta'>
-                <p className='name'>Louis Litt</p>
-                <p className='preview'>You just got LITT up, Mike.</p>
-              </div>
-            </div>
-          </li>
-          <li className='contact active'>
-            <div className='wrap'>
-              <span className='contact-status busy'></span>
-              <img src='img/avatar-male.png' alt='' />
-              <div className='meta'>
-                <p className='name'>Harvey Specter</p>
-                <p className='preview'>
-                  Wrong. You take the gun, or you pull out a bigger one. Or, you
-                  call their bluff. Or, you do any one of a hundred and forty
-                  six other things.
-                </p>
-              </div>
-            </div>
-          </li>
-          <li className='contact'>
-            <div className='wrap'>
-              <span className='contact-status away'></span>
-              <img src='img/avatar-male.png' alt='' />
-              <div className='meta'>
-                <p className='name'>Rachel Zane</p>
-                <p className='preview'>
-                  I was thinking that we could have chicken tonight, sounds
-                  good?
-                </p>
-              </div>
-            </div>
-          </li>
-        </ul>
+      <div id='conversations'>
+        {activeTab === ACTIVE_TAB.conversations ? (
+          <Conversations />
+        ) : (
+          <Users list={userList} />
+        )}
       </div>
+
       <div id='bottom-bar'>
-        <button id='addcontact' className='active'>
+        <button
+          id='conversations'
+          className={activeTab === ACTIVE_TAB.conversations ? 'active' : ''}
+          onClick={() => setActiveTab(ACTIVE_TAB.conversations)}>
           <i className='fa fa-exchange fa-fw' aria-hidden='true'></i>
           <span>Conversations</span>
         </button>
-        <button id='settings'>
+        <button
+          id='users'
+          className={activeTab === ACTIVE_TAB.users ? 'active' : ''}
+          onClick={() => setActiveTab(ACTIVE_TAB.users)}>
           <i className='fa fa-users fa-fw' aria-hidden='true'></i>
-          <span>List</span>
+          <span>Users</span>
         </button>
       </div>
     </div>

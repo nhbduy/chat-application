@@ -56,7 +56,7 @@ function Welcome({ location }) {
           </label>
           <input
             value={roomName}
-            disabled={roomName}
+            disabled={room}
             type='text'
             className='form-control'
             id='roomname'

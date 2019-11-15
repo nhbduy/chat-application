@@ -7,7 +7,8 @@ export const SOCKET_MSG = {
   join: 'join',
   message: 'message',
   sendMessage: 'sendMessage',
-  roomData: 'roomData'
+  roomData: 'roomData',
+  onlineUsers: 'onlineUsers'
 };
 
 export const MSG_TYPE = {
