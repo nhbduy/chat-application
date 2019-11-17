@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Input({ msg, func }) {
+function Input({ message, func }) {
   const { handleOnChangeMessage, handleOnKeyPressMessage, sendMessage } = func;
 
   return (
@@ -9,15 +9,11 @@ function Input({ msg, func }) {
         <input
           type='text'
           placeholder='Write your message...'
-          value={msg}
+          value={message}
           onChange={handleOnChangeMessage}
           onKeyPress={handleOnKeyPressMessage}
         />
-        <button
-          className='submit'
-          onClick={() => {
-            alert('Go');
-          }}>
+        <button className='submit' onClick={sendMessage}>
           <i className='fa fa-paper-plane' aria-hidden='true'></i>
         </button>
       </div>

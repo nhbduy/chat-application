@@ -1,10 +1,11 @@
 import React from 'react';
 
-function Users({ list }) {
+function Users({ currentUser, userList }) {
+  const filteredList = userList.filter(u => u.name !== currentUser.name);
   return (
     <React.Fragment>
       <ul>
-        {list.map(item => (
+        {filteredList.map(item => (
           <li key={item.id} className='contact'>
             {/* active */}
             <div className='wrap'>

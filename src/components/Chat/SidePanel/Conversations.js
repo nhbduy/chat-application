@@ -1,10 +1,26 @@
 import React from 'react';
 
-function Conversations({}) {
+function Conversations({ currentRoom, roomList, handleClickJoinRoom }) {
+  const filteredList = roomList;
+
   return (
     <React.Fragment>
       <ul>
-        <li className='contact'>
+        {filteredList.map(item => (
+          <li
+            key={item.id}
+            className={`contact ${
+              currentRoom.name === item.name ? 'active' : ''
+            }`}
+            onClick={() => handleClickJoinRoom(item)}>
+            <div className='wrap'>
+              <div className='meta'>
+                <p className='name'>{item.name}</p>
+              </div>
+            </div>
+          </li>
+        ))}
+        {/* <li className='contact'>
           <div className='wrap'>
             <span className='contact-status online'></span>
             <img src='img/avatar-male.png' alt='' />
@@ -39,7 +55,7 @@ function Conversations({}) {
               </p>
             </div>
           </div>
-        </li>
+        </li> */}
       </ul>
     </React.Fragment>
   );

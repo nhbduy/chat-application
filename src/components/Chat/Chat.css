@@ -307,7 +307,7 @@
 
 #sidepanel #conversations::-webkit-scrollbar {
   width: 8px;
-  background: #2c3e50;
+  /* background: #2c3e50; */
 }
 
 #sidepanel #conversations::-webkit-scrollbar-thumb {
@@ -545,6 +545,11 @@
 
 .content .contact-profile .social-media i:hover {
   color: #435f7a;
+}
+
+.content .contact-profile i {
+  font-size: 2em;
+  cursor: pointer;
 }
 
 .content .messages {

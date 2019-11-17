@@ -3,17 +3,37 @@ import React from 'react';
 import List from './List';
 import Input from './Input';
 
-function Message({ user, msg, msgList, func }) {
+function Message({
+  active,
+  currentUser,
+  userList,
+  currentRoom,
+  message,
+  messageList,
+  func
+}) {
   return (
     <div className='content'>
-      <div className='contact-profile'>
-        <img src='img/avatar-male.png' alt='' />
-        <p>Harvey Specter</p>
-      </div>
+      {active ? (
+        <React.Fragment>
+          <div className='contact-profile d-flex justify-content-between align-items-center pl-4 pr-4'>
+            <p>{currentRoom.name}</p>
+            <i className='fa fa-close' aria-hidden='true'></i>
+          </div>
 
-      <List user={user} msgList={msgList} />
+          <List
+            currentUser={currentUser}
+            userList={userList}
+            messageList={messageList}
+          />
 
-      <Input msg={msg} func={func} />
+          <Input message={message} func={func} />
+        </React.Fragment>
+      ) : (
+        <span className='h-100 d-flex justify-content-center align-items-center'>
+          Message Chat
+        </span>
+      )}
     </div>
   );
 }

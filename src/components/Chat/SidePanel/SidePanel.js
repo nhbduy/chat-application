@@ -7,8 +7,15 @@ const ACTIVE_TAB = {
   users: 2
 };
 
-function SidePanel({ currentUser, userList }) {
+function SidePanel({ currentUser, userList, currentRoom, roomList, func }) {
+  const {
+    handleClickCreateRoom,
+    handleClickJoinRoom,
+    handleClickDisconnect
+  } = func;
+
   const [activeTab, setActiveTab] = useState(ACTIVE_TAB.conversations);
+
   return (
     <div id='sidepanel'>
       <div id='profile'>
@@ -20,9 +27,18 @@ function SidePanel({ currentUser, userList }) {
               className='online'
               alt=''
             />
-            <p>{currentUser}</p>
+            <p>{currentUser.name}</p>
           </div>
-          <i className='fa fa-plus expand-button pr-3' aria-hidden='true'></i>
+          <div>
+            <i
+              className='fa fa-sign-out expand-button pr-3'
+              aria-hidden='true'
+              onClick={handleClickDisconnect}></i>
+            <i
+              className='fa fa-plus expand-button pr-3'
+              aria-hidden='true'
+              onClick={handleClickCreateRoom}></i>
+          </div>
         </div>
       </div>
       {/* <div id='search'>
@@ -33,9 +49,13 @@ function SidePanel({ currentUser, userList }) {
         </div> */}
       <div id='conversations'>
         {activeTab === ACTIVE_TAB.conversations ? (
-          <Conversations />
+          <Conversations
+            currentRoom={currentRoom}
+            roomList={roomList}
+            handleClickJoinRoom={handleClickJoinRoom}
+          />
         ) : (
-          <Users list={userList} />
+          <Users currentUser={currentUser} userList={userList} />
         )}
       </div>
 
