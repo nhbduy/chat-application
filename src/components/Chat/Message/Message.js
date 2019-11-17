@@ -4,7 +4,6 @@ import List from './List';
 import Input from './Input';
 
 function Message({
-  active,
   currentUser,
   userList,
   currentRoom,
@@ -12,18 +11,30 @@ function Message({
   messageList,
   func
 }) {
+  const { handleClickLeaveRoom } = func;
+
+  function formattedName(type, name) {
+    // name: CurrentUserAnotherUser
+    if (type === 1) return `${name.replace(currentUser.name, '')}`;
+    else if (type === 2) return `${name}`;
+  }
+
   return (
     <div className='content'>
-      {active ? (
+      {Object.keys(currentRoom).length ? (
         <React.Fragment>
           <div className='contact-profile d-flex justify-content-between align-items-center pl-4 pr-4'>
-            <p>{currentRoom.name}</p>
-            <i className='fa fa-close' aria-hidden='true'></i>
+            <p>{formattedName(currentRoom.type, currentRoom.name)}</p>
+            <i
+              className='fa fa-close'
+              aria-hidden='true'
+              onClick={() => handleClickLeaveRoom(currentRoom)}></i>
           </div>
 
           <List
             currentUser={currentUser}
             userList={userList}
+            currentRoom={currentRoom}
             messageList={messageList}
           />
 

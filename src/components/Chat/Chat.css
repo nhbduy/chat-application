@@ -314,6 +314,17 @@
   background-color: #243140;
 }
 
+#sidepanel #conversations p.tag {
+  padding: 1em 1em;
+  text-transform: uppercase;
+  color: #FFF;
+  font-size: 0.1em;
+}
+
+#sidepanel #conversations ul {
+  margin: 0;
+}
+
 #sidepanel #conversations ul li.contact {
   position: relative;
   padding: 10px 0 15px 0;

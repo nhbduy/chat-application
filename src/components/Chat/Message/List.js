@@ -1,8 +1,8 @@
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 
 import Item from './Item';
 
-function List({ currentUser, userList, messageList }) {
+function List({ currentUser, userList, currentRoom, messageList }) {
   const myRef = useRef(null);
 
   // auto scroll to bottom
@@ -13,11 +13,18 @@ function List({ currentUser, userList, messageList }) {
   return (
     <div className='messages' ref={myRef}>
       <ul>
-        {messageList.map(msg => (
-          <div key={msg.id}>
-            <Item currentUser={currentUser} userList={userList} message={msg} />
-          </div>
-        ))}
+        {messageList &&
+          messageList
+            .filter(m => m.room_id === currentRoom.id)
+            .map(msg => (
+              <div key={msg.id}>
+                <Item
+                  currentUser={currentUser}
+                  userList={userList}
+                  message={msg}
+                />
+              </div>
+            ))}
       </ul>
     </div>
   );

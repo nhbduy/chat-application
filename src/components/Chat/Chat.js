@@ -19,9 +19,10 @@ function Chat({ location, history }) {
   const [roomData, setRoomData] = useState({});
   const [roomList, setRoomList] = useState([]);
 
-  const [activeMessagePanel, setActiveMessagePanel] = useState(false);
-  const [message, setMessage] = useState('');
-  const [messageList, setMessageList] = useState([]);
+  const [conversationList, setConversationList] = useState([]);
+
+  const [message, setMessage] = useState(''); // messsage from input
+  const [messageList, setMessageList] = useState([]); // message list from socket
 
   // handle user connect/disconnect
   useEffect(() => {
@@ -47,25 +48,29 @@ function Chat({ location, history }) {
       socket.on('getAvailableRooms', data => setRoomList(data));
     });
 
-    return () => {
-      socket.emit('userDisconnect', user);
-      // disconnect and turn off socket
-      socket.emit(SOCKET_MSG.disconnect);
-      socket.disconnect();
-    };
+    return () => handleSocketDisconnect(socket, user);
   }, [SERVER_URL, paramsURL]);
 
   // handle user send message
   useEffect(() => {
-    socket.on(SOCKET_MSG.message, message => {
-      setMessageList([...messageList, message]);
-    });
+    socket.on(SOCKET_MSG.message, list => setMessageList(list));
   }, [messageList]);
 
+  // handle user join room
   useEffect(() => {
     if (Object.keys(userData).length && Object.keys(roomData).length)
-      socket.emit(SOCKET_MSG.join, { user: userData, room: roomData });
+      socket.emit(SOCKET_MSG.join, { user: userData, room: roomData }, room => {
+        // setConversationList([...conversationList, roomData]);
+        // setRoomData(room);
+      });
   }, [roomData]);
+
+  function handleSocketDisconnect(socket, user) {
+    socket.emit('userDisconnect', user);
+    // disconnect and turn off socket
+    socket.emit(SOCKET_MSG.disconnect);
+    socket.disconnect();
+  }
 
   function handleClickCreateRoom(event) {
     event.preventDefault();
@@ -78,18 +83,41 @@ function Chat({ location, history }) {
       socket.emit(
         'createNewRoom',
         { user: userData, roomName: room, roomType: 2 },
-        data => {
-          setRoomData(data);
-          setActiveMessagePanel(true);
-        }
+        data => setRoomData(data)
       );
     }
+  }
+
+  function handleClickJoinP2P(user) {
+    // if (user) {
+    //   socket.emit(
+    //     'createNewRoom',
+    //     {
+    //       user: userData,
+    //       roomName: `${userData.name}-${user.name}`, // UserAUserB
+    //       roomType: 1
+    //     },
+    //     data => {
+    //       setRoomData(data);
+    //       setActiveMessagePanel(true);
+    //     }
+    //   );
+    // }
+    alert('TODO: P2P feature is coming soon');
   }
 
   function handleClickJoinRoom(room) {
     if (room) {
       setRoomData(room);
-      setActiveMessagePanel(true);
+    }
+  }
+
+  function handleClickLeaveRoom(room) {
+    if (room) {
+      socket.emit(SOCKET_MSG.leave, { user: userData, room }, room => {
+        console.log(room.name, 'exit');
+        setRoomData({});
+      });
     }
   }
 
@@ -129,11 +157,6 @@ function Chat({ location, history }) {
     return null;
   }
 
-  // TEST console.log
-  // console.log(userData);
-  // console.log(userData);
-  // console.log(userList);
-
   return (
     <React.Fragment>
       <SidePanel
@@ -141,21 +164,27 @@ function Chat({ location, history }) {
         userList={userList}
         currentRoom={roomData}
         roomList={roomList}
+        conversationList={conversationList}
         func={{
           handleClickCreateRoom,
+          handleClickJoinP2P,
           handleClickJoinRoom,
           handleClickDisconnect
         }}
       />
 
       <Message
-        active={activeMessagePanel}
         currentUser={userData}
         userList={userList}
         currentRoom={roomData}
         message={message}
         messageList={messageList}
-        func={{ handleOnChangeMessage, handleOnKeyPressMessage, sendMessage }}
+        func={{
+          handleClickLeaveRoom,
+          handleOnChangeMessage,
+          handleOnKeyPressMessage,
+          sendMessage
+        }}
       />
     </React.Fragment>
   );

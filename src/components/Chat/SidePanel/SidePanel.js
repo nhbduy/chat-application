@@ -1,20 +1,29 @@
 import React, { useState } from 'react';
 import Conversations from './Conversations';
 import Users from './Users';
+import Groups from './Groups';
 
 const ACTIVE_TAB = {
   conversations: 1,
   users: 2
 };
 
-function SidePanel({ currentUser, userList, currentRoom, roomList, func }) {
+function SidePanel({
+  currentUser,
+  userList,
+  currentRoom,
+  roomList,
+  conversationList,
+  func
+}) {
   const {
     handleClickCreateRoom,
+    handleClickJoinP2P,
     handleClickJoinRoom,
     handleClickDisconnect
   } = func;
 
-  const [activeTab, setActiveTab] = useState(ACTIVE_TAB.conversations);
+  const [activeTab, setActiveTab] = useState(ACTIVE_TAB.users);
 
   return (
     <div id='sidepanel'>
@@ -50,12 +59,24 @@ function SidePanel({ currentUser, userList, currentRoom, roomList, func }) {
       <div id='conversations'>
         {activeTab === ACTIVE_TAB.conversations ? (
           <Conversations
+            currentUser={currentUser}
             currentRoom={currentRoom}
-            roomList={roomList}
+            conversationList={conversationList}
             handleClickJoinRoom={handleClickJoinRoom}
           />
         ) : (
-          <Users currentUser={currentUser} userList={userList} />
+          <React.Fragment>
+            <Users
+              currentUser={currentUser}
+              userList={userList}
+              handleClickJoinP2P={handleClickJoinP2P}
+            />
+            <Groups
+              currentRoom={currentRoom}
+              roomList={roomList}
+              handleClickJoinRoom={handleClickJoinRoom}
+            />
+          </React.Fragment>
         )}
       </div>
 
@@ -63,7 +84,10 @@ function SidePanel({ currentUser, userList, currentRoom, roomList, func }) {
         <button
           id='conversations'
           className={activeTab === ACTIVE_TAB.conversations ? 'active' : ''}
-          onClick={() => setActiveTab(ACTIVE_TAB.conversations)}>
+          onClick={() => {
+            alert('TODO: Conversations (multi-channel) is coming soon');
+            // setActiveTab(ACTIVE_TAB.conversations);
+          }}>
           <i className='fa fa-exchange fa-fw' aria-hidden='true'></i>
           <span>Conversations</span>
         </button>
@@ -72,7 +96,7 @@ function SidePanel({ currentUser, userList, currentRoom, roomList, func }) {
           className={activeTab === ACTIVE_TAB.users ? 'active' : ''}
           onClick={() => setActiveTab(ACTIVE_TAB.users)}>
           <i className='fa fa-users fa-fw' aria-hidden='true'></i>
-          <span>Users</span>
+          <span>Users & Groups</span>
         </button>
       </div>
     </div>

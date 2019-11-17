@@ -6,6 +6,7 @@ export const SOCKET_MSG = {
   disconnect: 'disconnect',
   setOnline: 'setOnline',
   join: 'join',
+  leave: 'leave',
   message: 'message',
   sendMessage: 'sendMessage',
   roomData: 'roomData',
@@ -13,7 +14,7 @@ export const SOCKET_MSG = {
 };
 
 export const MSG_TYPE = {
-  admin: 0,
-  sent: 1,
-  received: 2
+  admin: 1,
+  sent: 2,
+  received: 3
 };

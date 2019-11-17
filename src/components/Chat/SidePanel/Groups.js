@@ -1,21 +1,11 @@
 import React from 'react';
 
-function Conversations({
-  currentUser,
-  currentRoom,
-  conversationList,
-  handleClickJoinRoom
-}) {
-  const filteredList = conversationList;
-
-  function formattedName(type, name) {
-    // name: CurrentUserAnotherUser
-    if (type === 1) return `P2P: ${name.replace(currentUser.name, '')}`;
-    else if (type === 2) return `Group: ${name}`;
-  }
+function Groups({ currentRoom, roomList, handleClickJoinRoom }) {
+  const filteredList = roomList;
 
   return (
     <React.Fragment>
+      <p className='tag'>Groups</p>
       <ul>
         {filteredList.map(item => (
           <li
@@ -26,7 +16,7 @@ function Conversations({
             onClick={() => handleClickJoinRoom(item)}>
             <div className='wrap'>
               <div className='meta'>
-                <p className='name'>{formattedName(item.type, item.name)}</p>
+                <p className='name'>{item.name}</p>
               </div>
             </div>
           </li>
@@ -36,4 +26,4 @@ function Conversations({
   );
 }
 
-export default Conversations;
+export default Groups;
