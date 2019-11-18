@@ -7,11 +7,11 @@ import Chat from './components/Chat/Chat';
 
 function App() {
   return (
-    <h1 className='text-center'>Hello World</h1>
-    // <BrowserRouter>
-    //   <Route path='/' exact component={Welcome} />
-    //   <Route path='/chat' component={Chat} />
-    // </BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
+      <Route path='/' exact component={Welcome} />
+      <Route path='/chat' component={Chat} />
+      <Route component={() => <div>404 Not found </div>} />
+    </BrowserRouter>
   );
 }
 
