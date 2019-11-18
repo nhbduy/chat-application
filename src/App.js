@@ -10,7 +10,6 @@ function App() {
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Route path='/' exact component={Welcome} />
       <Route path='/chat' component={Chat} />
-      <Route component={() => <div>404 Not found </div>} />
     </BrowserRouter>
   );
 }
