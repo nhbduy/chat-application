@@ -50,7 +50,7 @@ function Chat({ location, history }) {
       socket.on('getAvailableRooms', data => setRoomList(data));
     });
 
-    return () => handleSocketDisconnect(socket, user);
+    return () => handleSocketDisconnect(user);
   }, [SERVER_URL, paramsURL]);
 
   // handle user send message
@@ -59,33 +59,35 @@ function Chat({ location, history }) {
   }, [messageList]);
 
   // handle user join room
-  // useEffect(() => {
-  //   if (Object.keys(userData).length && Object.keys(roomData).length) {
-  //     if (joindedRooms.includes(roomData.id)) handleSwitchRoom(roomData);
-  //     else handleSocketJoinRoom(socket, userData, roomData);
-  //   }
-  // }, [roomData]);
+  useEffect(() => {
+    if (Object.keys(userData).length && Object.keys(roomData).length) {
+      // TODO: improve switch channels
+      // if (joindedRooms.includes(roomData.id)) handleSwitchRoom(roomData);
+      // else handleSocketJoinRoom(userData, roomData);
 
-  function handleSocketJoinRoom(socket, user, room) {
+      handleSocketJoinRoom(userData, roomData);
+    }
+  }, [roomData]);
+
+  function handleSocketJoinRoom(user, room) {
     socket.emit(SOCKET_MSG.join, { user, room }, room => {
       console.log('joined', room.name);
       setJoindedRooms([...joindedRooms, room.id]);
-      setRoomData(room);
+      // setRoomData(room);
     });
   }
 
-  function handleSwitchRoom(room) {
-    setRoomData(room);
-  }
+  // function handleSwitchRoom(room) {
+  //   console.log(room.name, 'switched');
+  // }
 
   function handleClickChooseRoom(room) {
     if (room) {
-      if (joindedRooms.includes(room.id)) handleSwitchRoom(room);
-      else handleSocketJoinRoom(socket, userData, room);
+      setRoomData(room);
     }
   }
 
-  function handleSocketDisconnect(socket, user) {
+  function handleSocketDisconnect(user) {
     socket.emit('userDisconnect', user);
     // disconnect and turn off socket
     socket.emit(SOCKET_MSG.disconnect);

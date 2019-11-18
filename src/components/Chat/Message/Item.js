@@ -40,7 +40,7 @@ function Item({ currentUser, userList, message }) {
         <div>
           <span className='name'>{isCurrentUserSent ? 'You' : senderName}</span>
           <p>{content}</p>
-          <span>{created_at}</span>
+          <span>{moment(created_at).format(TIME_FORMAT)}</span>
         </div>
         {isCurrentUserSent && <img src={avatar.src} alt={avatar.name} />}
       </li>
