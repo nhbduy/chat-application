@@ -24,5 +24,7 @@ Open [http://localhost:3000](http://localhost:3000) (port 3000 by default) to vi
 
 
 #### HOW TO USE
+(... to be edited)
+
 
 > #### NOTE: need to be run with [server-side](https://github.com/nhbduy/chat-application-server) part that you can explore.
