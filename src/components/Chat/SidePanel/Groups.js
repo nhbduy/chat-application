@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Groups({ currentRoom, roomList, handleClickJoinRoom }) {
+function Groups({ currentRoom, roomList, handleClickChooseRoom }) {
   const filteredList = roomList;
 
   return (
@@ -13,7 +13,7 @@ function Groups({ currentRoom, roomList, handleClickJoinRoom }) {
             className={`contact ${
               currentRoom.name === item.name ? 'active' : ''
             }`}
-            onClick={() => handleClickJoinRoom(item)}>
+            onClick={() => handleClickChooseRoom(item)}>
             <div className='wrap'>
               <div className='meta'>
                 <p className='name'>{item.name}</p>

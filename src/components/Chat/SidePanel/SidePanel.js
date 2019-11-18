@@ -19,7 +19,7 @@ function SidePanel({
   const {
     handleClickCreateRoom,
     handleClickJoinP2P,
-    handleClickJoinRoom,
+    handleClickChooseRoom,
     handleClickDisconnect
   } = func;
 
@@ -62,7 +62,7 @@ function SidePanel({
             currentUser={currentUser}
             currentRoom={currentRoom}
             conversationList={conversationList}
-            handleClickJoinRoom={handleClickJoinRoom}
+            handleClickChooseRoom={handleClickChooseRoom}
           />
         ) : (
           <React.Fragment>
@@ -74,7 +74,7 @@ function SidePanel({
             <Groups
               currentRoom={currentRoom}
               roomList={roomList}
-              handleClickJoinRoom={handleClickJoinRoom}
+              handleClickChooseRoom={handleClickChooseRoom}
             />
           </React.Fragment>
         )}

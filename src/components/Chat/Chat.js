@@ -24,6 +24,8 @@ function Chat({ location, history }) {
   const [message, setMessage] = useState(''); // messsage from input
   const [messageList, setMessageList] = useState([]); // message list from socket
 
+  const [joindedRooms, setJoindedRooms] = useState([]); // joined room list
+
   // handle user connect/disconnect
   useEffect(() => {
     const data = queryString.parse(paramsURL);
@@ -57,13 +59,31 @@ function Chat({ location, history }) {
   }, [messageList]);
 
   // handle user join room
-  useEffect(() => {
-    if (Object.keys(userData).length && Object.keys(roomData).length)
-      socket.emit(SOCKET_MSG.join, { user: userData, room: roomData }, room => {
-        // setConversationList([...conversationList, roomData]);
-        // setRoomData(room);
-      });
-  }, [roomData]);
+  // useEffect(() => {
+  //   if (Object.keys(userData).length && Object.keys(roomData).length) {
+  //     if (joindedRooms.includes(roomData.id)) handleSwitchRoom(roomData);
+  //     else handleSocketJoinRoom(socket, userData, roomData);
+  //   }
+  // }, [roomData]);
+
+  function handleSocketJoinRoom(socket, user, room) {
+    socket.emit(SOCKET_MSG.join, { user, room }, room => {
+      console.log('joined', room.name);
+      setJoindedRooms([...joindedRooms, room.id]);
+      setRoomData(room);
+    });
+  }
+
+  function handleSwitchRoom(room) {
+    setRoomData(room);
+  }
+
+  function handleClickChooseRoom(room) {
+    if (room) {
+      if (joindedRooms.includes(room.id)) handleSwitchRoom(room);
+      else handleSocketJoinRoom(socket, userData, room);
+    }
+  }
 
   function handleSocketDisconnect(socket, user) {
     socket.emit('userDisconnect', user);
@@ -104,12 +124,6 @@ function Chat({ location, history }) {
     //   );
     // }
     alert('TODO: P2P feature is coming soon');
-  }
-
-  function handleClickJoinRoom(room) {
-    if (room) {
-      setRoomData(room);
-    }
   }
 
   function handleClickLeaveRoom(room) {
@@ -168,7 +182,7 @@ function Chat({ location, history }) {
         func={{
           handleClickCreateRoom,
           handleClickJoinP2P,
-          handleClickJoinRoom,
+          handleClickChooseRoom,
           handleClickDisconnect
         }}
       />

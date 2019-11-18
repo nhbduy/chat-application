@@ -4,7 +4,7 @@ function Conversations({
   currentUser,
   currentRoom,
   conversationList,
-  handleClickJoinRoom
+  handleClickChooseRoom
 }) {
   const filteredList = conversationList;
 
@@ -23,7 +23,7 @@ function Conversations({
             className={`contact ${
               currentRoom.name === item.name ? 'active' : ''
             }`}
-            onClick={() => handleClickJoinRoom(item)}>
+            onClick={() => handleClickChooseRoom(item)}>
             <div className='wrap'>
               <div className='meta'>
                 <p className='name'>{formattedName(item.type, item.name)}</p>

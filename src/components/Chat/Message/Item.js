@@ -2,13 +2,17 @@ import React from 'react';
 
 import { MSG_TYPE } from '../../../config';
 
+import moment from 'moment';
+
+const TIME_FORMAT = 'DD-MM-YYYY HH:MM';
+
 function Item({ currentUser, userList, message }) {
   const {
     id = 0,
     sender_id = 0,
     room_id = 0,
     content = '',
-    create_at = '1975-01-01 00:00:00',
+    created_at = '1975-01-01 00:00:00',
     seen_by = []
   } = message;
 
@@ -20,7 +24,7 @@ function Item({ currentUser, userList, message }) {
     return (
       <li className='admin'>
         <p>{content}</p>
-        <span>{create_at}</span>
+        <span>{moment(created_at).format(TIME_FORMAT)}</span>
       </li>
     );
   };
@@ -36,7 +40,7 @@ function Item({ currentUser, userList, message }) {
         <div>
           <span className='name'>{isCurrentUserSent ? 'You' : senderName}</span>
           <p>{content}</p>
-          <span>{create_at}</span>
+          <span>{created_at}</span>
         </div>
         {isCurrentUserSent && <img src={avatar.src} alt={avatar.name} />}
       </li>
