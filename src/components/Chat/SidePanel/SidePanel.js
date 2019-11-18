@@ -13,6 +13,7 @@ function SidePanel({
   userList,
   currentRoom,
   roomList,
+  notificationRoom,
   conversationList,
   func
 }) {
@@ -72,8 +73,10 @@ function SidePanel({
               handleClickJoinP2P={handleClickJoinP2P}
             />
             <Groups
+              currentUser={currentUser}
               currentRoom={currentRoom}
               roomList={roomList}
+              notificationRoom={notificationRoom}
               handleClickChooseRoom={handleClickChooseRoom}
             />
           </React.Fragment>

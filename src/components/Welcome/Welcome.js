@@ -39,7 +39,6 @@ function Welcome({ location, history }) {
       .then(response => response.json())
       .then(data => {
         if (data.status === 200 && data.user.id) {
-          console.log(data.message, 'log in to chat');
           setNotification('Username found');
           redirectToLink(data.user.name);
         } else if (data.status === 400)

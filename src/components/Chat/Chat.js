@@ -25,6 +25,7 @@ function Chat({ location, history }) {
   const [messageList, setMessageList] = useState([]); // message list from socket
 
   const [joindedRooms, setJoindedRooms] = useState([]); // joined room list
+  const [notificationRoom, setNotificationRoom] = useState({});
 
   // handle user connect/disconnect
   useEffect(() => {
@@ -32,23 +33,24 @@ function Chat({ location, history }) {
 
     // set current user and room name
     const { user = '', room = '' } = data;
-
-    // check user is already online
-
-    // if (user) setUserName(user);
-    // if (room) setRoomName(room); // if user has an invatation link
-
     // call socket from server
     socket = socketio(SERVER_URL);
 
     // connect
-    socket.emit('userConnect', user, data => {
-      setUserData(data);
+    socket.emit(
+      'userConnect',
+      { userName: user, roomName: room },
+      ({ userRes, roomRes }) => {
+        if (userRes) setUserData(userRes);
 
-      socket.on('getOnlineUsers', data => setUserList(data));
+        // if user has invitation link
+        if (roomRes) setRoomData(roomRes);
 
-      socket.on('getAvailableRooms', data => setRoomList(data));
-    });
+        socket.on('getOnlineUsers', data => setUserList(data));
+
+        socket.on('getAvailableRooms', data => setRoomList(data));
+      }
+    );
 
     return () => handleSocketDisconnect(user);
   }, [SERVER_URL, paramsURL]);
@@ -56,6 +58,23 @@ function Chat({ location, history }) {
   // handle user send message
   useEffect(() => {
     socket.on(SOCKET_MSG.message, list => setMessageList(list));
+  }, [messageList]);
+
+  // handle user notification
+  useEffect(() => {
+    socket.on('notification', ({ user, room }) => {
+      // Structure: {senderId: [roomId1, roomId2, ...]}
+      const newObj = {
+        ...notificationRoom,
+        [user.id]:
+          notificationRoom[user.id] &&
+          !notificationRoom[user.id].includes(room.id)
+            ? [...notificationRoom[user.id], room.id]
+            : [room.id]
+      };
+
+      setNotificationRoom(newObj);
+    });
   }, [messageList]);
 
   // handle user join room
@@ -71,7 +90,6 @@ function Chat({ location, history }) {
 
   function handleSocketJoinRoom(user, room) {
     socket.emit(SOCKET_MSG.join, { user, room }, room => {
-      console.log('joined', room.name);
       setJoindedRooms([...joindedRooms, room.id]);
       // setRoomData(room);
     });
@@ -84,6 +102,25 @@ function Chat({ location, history }) {
   function handleClickChooseRoom(room) {
     if (room) {
       setRoomData(room);
+
+      // reset notification when click on room notified
+      if (
+        notificationRoom &&
+        notificationRoom.room &&
+        room.name === notificationRoom.room.name
+      ) {
+        const index = notificationRoom[userData.id].indexOf(room.id);
+        if (index > -1) {
+          notificationRoom[userData.id].splice(index, 1);
+        }
+
+        const newObj = {
+          ...notificationRoom,
+          [userData.id]: [...notificationRoom[userData.id]]
+        };
+
+        setNotificationRoom(newObj);
+      }
     }
   }
 
@@ -131,7 +168,6 @@ function Chat({ location, history }) {
   function handleClickLeaveRoom(room) {
     if (room) {
       socket.emit(SOCKET_MSG.leave, { user: userData, room }, room => {
-        console.log(room.name, 'exit');
         setRoomData({});
       });
     }
@@ -180,6 +216,7 @@ function Chat({ location, history }) {
         userList={userList}
         currentRoom={roomData}
         roomList={roomList}
+        notificationRoom={notificationRoom}
         conversationList={conversationList}
         func={{
           handleClickCreateRoom,
