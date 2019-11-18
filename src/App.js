@@ -7,10 +7,11 @@ import Chat from './components/Chat/Chat';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Route path='/' exact component={Welcome} />
-      <Route path='/chat' component={Chat} />
-    </BrowserRouter>
+    <h1 className='text-center'>Hello World</h1>
+    // <BrowserRouter>
+    //   <Route path='/' exact component={Welcome} />
+    //   <Route path='/chat' component={Chat} />
+    // </BrowserRouter>
   );
 }
 
