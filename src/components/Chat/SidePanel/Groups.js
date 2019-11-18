@@ -9,17 +9,35 @@ function Groups({
 }) {
   const filteredList = roomList;
 
+  // TODO: notif multiple
+  // const notifCondition = room => {
+  //   if (
+  //     currentUser &&
+  //     currentUser.id &&
+  //     notificationRoom &&
+  //     Object.keys(notificationRoom).length &&
+  //     notificationRoom[currentUser.id]
+  //   ) {
+  //     return (
+  //       Object.keys(notificationRoom).includes(currentUser.id) &&
+  //       notificationRoom[currentUser.id].includes(room.id)
+  //     );
+  //   }
+
+  //   return false;
+  // };
+
   const notifCondition = room => {
     if (
       currentUser &&
       currentUser.id &&
       notificationRoom &&
-      Object.keys(notificationRoom).length &&
-      notificationRoom[currentUser.id]
+      notificationRoom.user &&
+      notificationRoom.room
     ) {
       return (
-        Object.keys(notificationRoom).includes(currentUser.id) &&
-        notificationRoom[currentUser.id].includes(room.id)
+        currentUser.id !== notificationRoom.user &&
+        room.id === notificationRoom.room
       );
     }
 

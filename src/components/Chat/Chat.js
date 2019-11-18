@@ -63,15 +63,16 @@ function Chat({ location, history }) {
   // handle user notification
   useEffect(() => {
     socket.on('notification', ({ user, room }) => {
-      // Structure: {senderId: [roomId1, roomId2, ...]}
-      const newObj = {
-        ...notificationRoom,
-        [user.id]:
-          notificationRoom[user.id] &&
-          !notificationRoom[user.id].includes(room.id)
-            ? [...notificationRoom[user.id], room.id]
-            : [room.id]
-      };
+      // TODO: Structure: {senderId: [roomId1, roomId2, ...]}
+      // const newObj = {
+      //   ...notificationRoom,
+      //   [user.id]:
+      //     notificationRoom[user.id] &&
+      //     !notificationRoom[user.id].includes(room.id)
+      //       ? [...notificationRoom[user.id], room.id]
+      //       : [room.id]
+      // };
+      const newObj = { user: user.id, room: room.id };
 
       setNotificationRoom(newObj);
     });
@@ -109,15 +110,18 @@ function Chat({ location, history }) {
         notificationRoom.room &&
         room.name === notificationRoom.room.name
       ) {
-        const index = notificationRoom[userData.id].indexOf(room.id);
-        if (index > -1) {
-          notificationRoom[userData.id].splice(index, 1);
-        }
+        // TODO: Structure: {senderId: [roomId1, roomId2, ...]}
+        // const index = notificationRoom[userData.id].indexOf(room.id);
+        // if (index > -1) {
+        //   notificationRoom[userData.id].splice(index, 1);
+        // }
 
-        const newObj = {
-          ...notificationRoom,
-          [userData.id]: [...notificationRoom[userData.id]]
-        };
+        // const newObj = {
+        //   ...notificationRoom,
+        //   [userData.id]: [...notificationRoom[userData.id]]
+        // };
+
+        const newObj = {};
 
         setNotificationRoom(newObj);
       }
